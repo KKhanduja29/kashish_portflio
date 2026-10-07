@@ -1058,19 +1058,23 @@ n
     contactBtn.disabled = true;
     contactBtn.querySelector("span").textContent = "Sending...";
 
-    emailjs.sendForm("service_81tzl4x", "template_7mt3sgq", this).then(
-      () => {
-        alert("Message sent successfully!");
-        contactForm.reset();
-        contactBtn.querySelector("span").textContent = "Send Message";
-      },
-      (error) => {
-        alert("Failed to send. Please try again.");
-        contactBtn.disabled = false;
-        contactBtn.querySelector("span").textContent = "Send Message";
-        console.error(error);
-      }
-    );
+    // 1) Visitor ko thank-you mail
+    emailjs.sendForm("service_81tzl4x", "template_7mt3sgq", this)
+      // 2) Aapko notification mail
+      .then(() => emailjs.sendForm("service_81tzl4x", "template_qqspurk", this))
+      .then(
+        () => {
+          alert("Message sent successfully!");
+          contactForm.reset();
+          contactBtn.querySelector("span").textContent = "Send Message";
+        },
+        (error) => {
+          alert("Failed to send. Please try again.");
+          contactBtn.disabled = false;
+          contactBtn.querySelector("span").textContent = "Send Message";
+          console.error(error);
+        }
+      );
   });
 </script>
 
