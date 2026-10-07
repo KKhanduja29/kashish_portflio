@@ -1044,7 +1044,36 @@ n
     <!--
     - custom js link
   -->
-    <script src="./assets/js/script.js"></script>
+   <script src="./assets/js/script.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>
+  emailjs.init({ publicKey: "-CVb8w5mzwvJc_Nnr" });
+
+  const contactForm = document.querySelector("[data-form]");
+  const contactBtn = document.querySelector("[data-form-btn]");
+
+  contactForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+    contactBtn.disabled = true;
+    contactBtn.querySelector("span").textContent = "Sending...";
+
+    emailjs.sendForm("service_81tzl4x", "template_7mt3sgq", this).then(
+      () => {
+        alert("Message sent successfully!");
+        contactForm.reset();
+        contactBtn.querySelector("span").textContent = "Send Message";
+      },
+      (error) => {
+        alert("Failed to send. Please try again.");
+        contactBtn.disabled = false;
+        contactBtn.querySelector("span").textContent = "Send Message";
+        console.error(error);
+      }
+    );
+  });
+</script>
+
 
     <!--
     - ionicon link
